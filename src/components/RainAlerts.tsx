@@ -19,7 +19,7 @@ export default function RainAlerts({ rainyBarangays, setSelectedBarangay, sendAl
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {rainyBarangays.map(barangay => (
-                    <div key={barangay.id} className="bg-gradient-to-br from-red-50 to-white border border-red-100 rounded-xl p-5 flex flex-col">
+                    <div key={barangay.name} className="bg-gradient-to-br from-red-50 to-white border border-red-100 rounded-xl p-5 flex flex-col">
                         <div className="flex justify-between items-start mb-4">
                             <div>
                                 <h4

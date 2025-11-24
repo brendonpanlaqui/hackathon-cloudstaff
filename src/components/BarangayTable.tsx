@@ -1,6 +1,6 @@
 
 import { Search } from 'lucide-react';
-import type { Barangay, RiskLevel } from '../types';
+import type { Barangay } from '../types';
 
 interface BarangayTableProps {
     barangays: Barangay[];
@@ -10,10 +10,10 @@ interface BarangayTableProps {
 }
 
 export default function BarangayTable({ barangays, filteredBarangays, setSearchTerm, setSelectedBarangay }: BarangayTableProps) {
-
-
-
-    const getRiskBadge = (level: RiskLevel) => {
+   
+   const sortedFilteredBaranger =  [...filteredBarangays].sort((a, b) => b.percentage - a.percentage);
+    console.log(sortedFilteredBaranger)
+    const getRiskBadge = (level: string) => {
         switch (level) {
             case 'High': return <span className="px-2 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800 border border-red-200">High Risk</span>;
             case 'Medium': return <span className="px-2 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-800 border border-orange-200">Medium</span>;
@@ -52,9 +52,9 @@ export default function BarangayTable({ barangays, filteredBarangays, setSearchT
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
-                        {filteredBarangays.length > 0 ? filteredBarangays.map((barangay) => (
+                        {sortedFilteredBaranger.length > 0 ? sortedFilteredBaranger.map((barangay) => (
                             <tr
-                                key={barangay.id}
+                                key={barangay.name}
                                 className="hover:bg-blue-50/50 transition-colors group cursor-pointer"
                                 onClick={() => setSelectedBarangay(barangay)}
                             >
@@ -63,16 +63,16 @@ export default function BarangayTable({ barangays, filteredBarangays, setSearchT
                                     <div className="text-xs text-gray-400">Angeles City</div>
                                 </td>
                                 <td className="px-6 py-4 text-right text-gray-600 font-mono text-sm">
-                                    {barangay.demographics.children.toLocaleString()}
+                                    {barangay.demographics.children}
                                 </td>
                                 <td className="px-6 py-4 text-right text-gray-600 font-mono text-sm">
-                                    {barangay.demographics.pwd.toLocaleString()}
+                                    {barangay.demographics.pwd}
                                 </td>
                                 <td className="px-6 py-4 text-right text-gray-600 font-mono text-sm">
-                                    {barangay.demographics.seniors.toLocaleString()}
+                                    {barangay.demographics.seniors}
                                 </td>
                                 <td className="px-6 py-4 text-right text-gray-600 font-mono text-sm">
-                                    {barangay.population.toLocaleString()}
+                                    {barangay.population}
                                 </td>
                                 <td className="px-6 py-4 text-center">
                                     {getRiskBadge(barangay.riskLevel)}
@@ -89,7 +89,7 @@ export default function BarangayTable({ barangays, filteredBarangays, setSearchT
                 </table>
             </div>
             <div className="p-4 border-t border-gray-200 bg-gray-50 text-xs text-gray-500 flex justify-between items-center">
-                <span>Showing {filteredBarangays.length} of {barangays.length} barangays</span>
+                <span>Showing {sortedFilteredBaranger.length} of {barangays.length} barangays</span>
                 <div className="flex gap-2">
                     <button className="px-3 py-1 border rounded bg-white hover:bg-gray-100 disabled:opacity-50" disabled>Prev</button>
                     <button className="px-3 py-1 border rounded bg-white hover:bg-gray-100">Next</button>

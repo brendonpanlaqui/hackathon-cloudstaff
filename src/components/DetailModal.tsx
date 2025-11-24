@@ -1,6 +1,7 @@
 
-import { X, MapPin, Droplets, Sun, Baby, Briefcase, Activity, Bell, CloudRain, Cloud } from 'lucide-react';
-import type { Barangay, WeatherType, RiskLevel } from '../types';
+import { X, MapPin, Baby, Briefcase, Activity, Bell } from 'lucide-react';
+import type { Barangay } from '../types';
+import { Link } from 'react-router-dom';
 
 interface DetailModalProps {
     selectedBarangay: Barangay | null;
@@ -11,16 +12,16 @@ interface DetailModalProps {
 export default function DetailModal({ selectedBarangay, setSelectedBarangay, sendAlert }: DetailModalProps) {
     if (!selectedBarangay) return null;
 
-    const getWeatherIcon = (weather: WeatherType, size = "h-5 w-5") => {
-        switch (weather) {
-            case 'Rainy': return <CloudRain className={`${size} text-blue-500`} />;
-            case 'Cloudy': return <Cloud className={`${size} text-gray-500`} />;
-            case 'Sunny': return <Sun className={`${size} text-yellow-500`} />;
-            default: return <Sun className={`${size} text-yellow-500`} />;
-        }
-    };
+    // const getWeatherIcon = (weather: WeatherType, size = "h-5 w-5") => {
+    //     switch (weather) {
+    //         case 'Rainy': return <CloudRain className={`${size} text-blue-500`} />;
+    //         case 'Cloudy': return <Cloud className={`${size} text-gray-500`} />;
+    //         case 'Sunny': return <Sun className={`${size} text-yellow-500`} />;
+    //         default: return <Sun className={`${size} text-yellow-500`} />;
+    //     }
+    // };
 
-    const getRiskBadge = (level: RiskLevel) => {
+    const getRiskBadge = (level: string) => {
         switch (level) {
             case 'High': return <span className="px-2 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800 border border-red-200">High Risk</span>;
             case 'Medium': return <span className="px-2 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-800 border border-orange-200">Medium</span>;
@@ -55,7 +56,7 @@ export default function DetailModal({ selectedBarangay, setSelectedBarangay, sen
                 {/* Modal Content - Scrollable */}
                 <div className="p-6 overflow-y-auto">
                     {/* Weather Section */}
-                    <div className="mb-8">
+                    {/* <div className="mb-8">
                         <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Current Conditions</h3>
                         <div className="flex flex-col sm:flex-row gap-4">
                             <div className="flex-1 bg-blue-50 border border-blue-100 p-4 rounded-xl flex items-center gap-4">
@@ -86,7 +87,7 @@ export default function DetailModal({ selectedBarangay, setSelectedBarangay, sen
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Demographics Section */}
                     <div className="mb-6">
@@ -99,10 +100,10 @@ export default function DetailModal({ selectedBarangay, setSelectedBarangay, sen
                                     <p className="text-3xl font-bold text-gray-900">{selectedBarangay.population.toLocaleString()}</p>
                                     <p className="text-sm text-gray-500">Total Residents</p>
                                 </div>
-                                <div className="text-right">
+                                {/* <div className="text-right">
                                     <p className="text-xl font-bold text-gray-900">{selectedBarangay.households.toLocaleString()}</p>
                                     <p className="text-sm text-gray-500">Total Households</p>
-                                </div>
+                                </div> */}
                             </div>
 
                             {/* Detailed Grid */}
@@ -125,12 +126,12 @@ export default function DetailModal({ selectedBarangay, setSelectedBarangay, sen
                                     <div className="absolute top-2 right-2 opacity-10 group-hover:opacity-20 transition-opacity">
                                         <Briefcase className="h-12 w-12 text-blue-600" />
                                     </div>
-                                    <p className="text-xs text-blue-800 font-bold uppercase mb-1">Adults (18-59)</p>
-                                    <p className="text-2xl font-bold text-gray-900">{selectedBarangay.demographics.adults.toLocaleString()}</p>
+                                    <p className="text-xs text-blue-800 font-bold uppercase mb-1">PWD</p>
+                                    <p className="text-2xl font-bold text-gray-900">{selectedBarangay.demographics.pwd.toLocaleString()}</p>
                                     <div className="w-full bg-blue-200 h-1.5 rounded-full mt-3 overflow-hidden">
-                                        <div className="bg-blue-500 h-full" style={{ width: `${(selectedBarangay.demographics.adults / selectedBarangay.population) * 100}%` }}></div>
+                                        <div className="bg-blue-500 h-full" style={{ width: `${(selectedBarangay.demographics.pwd / selectedBarangay.population) * 100}%` }}></div>
                                     </div>
-                                    <p className="text-[10px] text-gray-500 mt-1">{Math.round((selectedBarangay.demographics.adults / selectedBarangay.population) * 100)}% of total</p>
+                                    <p className="text-[10px] text-gray-500 mt-1">{Math.round((selectedBarangay.demographics.pwd / selectedBarangay.population) * 100)}% of total</p>
                                 </div>
 
                                 {/* Seniors */}
@@ -157,11 +158,11 @@ export default function DetailModal({ selectedBarangay, setSelectedBarangay, sen
                             <Bell className="h-5 w-5" />
                             Send Emergency Alert
                         </button>
-                        <button
-                            className="flex-1 py-3 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-xl font-bold transition-all"
+                        <Link to={"?viewMap=true"} onClick={(()=>setSelectedBarangay(null))}
+                            className="flex-1 py-3 text-center bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-xl font-bold transition-all"
                         >
                             View Map Location
-                        </button>
+                        </Link>
                     </div>
 
                 </div>
