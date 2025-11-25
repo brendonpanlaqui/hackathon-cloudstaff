@@ -1,6 +1,9 @@
 
 import { Search } from 'lucide-react';
 import type { Barangay } from '../types';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 interface BarangayTableProps {
     barangays: Barangay[];
@@ -8,9 +11,15 @@ interface BarangayTableProps {
     setSearchTerm: (term: string) => void;
     setSelectedBarangay: (barangay: Barangay) => void;
 }
-
-export default function BarangayTable({ barangays, filteredBarangays, setSearchTerm, setSelectedBarangay }: BarangayTableProps) {
-   
+export default function AlertTable({ barangays, filteredBarangays, setSearchTerm, setSelectedBarangay }: BarangayTableProps) {
+    const [data, setData] = useState<any>()
+   useEffect(()=>{
+    const fetch = async () => {
+        const response = await axios.get("http://127.0.0.1:5000/alerts")
+        setData(response.data)
+    }
+    fetch()
+   },[])
    const sortedFilteredBaranger =  [...filteredBarangays].sort((a, b) => b.percentage - a.percentage);
     console.log(sortedFilteredBaranger)
     const getRiskBadge = (level: string) => {
@@ -21,11 +30,10 @@ export default function BarangayTable({ barangays, filteredBarangays, setSearchT
             default: return <span className="px-2 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-800 border border-gray-200">Safe</span>;
         }
     };
-
     return (
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <div className="p-6 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <h3 className="text-lg font-bold text-gray-800">Flood Prone Areas</h3>
+                <h3 className="text-lg font-bold text-gray-800">User Report</h3>
 
                 {/* Mobile Search inside table header */}
                 <div className="relative sm:hidden w-full">
@@ -39,44 +47,42 @@ export default function BarangayTable({ barangays, filteredBarangays, setSearchT
                 </div>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto max-h-[30rem]">
                 <table className="w-full">
                     <thead className="bg-gray-50 text-xs uppercase text-gray-500 font-semibold">
                         <tr>
-                            <th className="px-6 py-4 text-left">Barangay</th>
-                            <th className="px-6 py-4 text-right">Children</th>
-                            <th className="px-6 py-4 text-right">Person with Disabilities</th>
-                            <th className="px-6 py-4 text-right">Senior Citizens</th>
-                            <th className="px-6 py-4 text-right">Population</th>
-                            <th className="px-6 py-4 text-center">Flood Risk</th>
+                            <th className="px-6 py-4 text-center">Id</th>
+                            <th className="px-6 py-4 text-center">User</th>
+                            <th className="px-6 py-4 text-center">Description</th>
+                              <th className="px-6 py-4 text-center">Created At</th>
+                               <th className="px-6 py-4 text-center">Type</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
-                        {sortedFilteredBaranger.length > 0 ? sortedFilteredBaranger.map((barangay) => (
-                            <tr
-                                key={barangay.name}
+                        {data  ? data.map((barangay: any) => (
+                            
+                            <tr onClick={()=>{  window.location.href = `?mapView=true&coords=${barangay.gpslocation}&user=${barangay.user}`}}
+                            
                                 className="hover:bg-blue-50/50 transition-colors group cursor-pointer"
-                                onClick={() => setSelectedBarangay(barangay)}
+                               
                             >
-                                <td className="px-6 py-4">
-                                    <div className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors">{barangay.name}</div>
-                                    <div className="text-xs text-gray-400">Angeles City</div>
+                               <td className="px-6 py-4">
+                                    <div className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors">{barangay.id}</div>
                                 </td>
-                                <td className="px-6 py-4 text-right text-gray-600 font-mono text-sm">
-                                    {barangay.demographics.children}
+                                <td className="px-6 py-4 text-center text-gray-600 font-mono text-sm">
+                                    {barangay.user}
                                 </td>
-                                <td className="px-6 py-4 text-right text-gray-600 font-mono text-sm">
-                                    {barangay.demographics.pwd}
+                                <td className="px-6 py-4 text-center text-gray-600 font-mono text-sm">
+                                    {barangay.description}
                                 </td>
-                                <td className="px-6 py-4 text-right text-gray-600 font-mono text-sm">
-                                    {barangay.demographics.seniors}
+                                <td className="px-6 py-4 text-center text-gray-600 font-mono text-sm">
+                                    {barangay.created_at}
                                 </td>
-                                <td className="px-6 py-4 text-right text-gray-600 font-mono text-sm">
-                                    {barangay.population}
+                                <td className="px-6 py-4 text-center text-gray-600 font-mono text-sm">
+                                    {barangay.type}
                                 </td>
-                                <td className="px-6 py-4 text-center">
-                                    {getRiskBadge(barangay.riskLevel)}
-                                </td>
+                            
+                                
                             </tr>
                         )) : (
                             <tr>

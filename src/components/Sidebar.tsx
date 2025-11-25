@@ -1,5 +1,6 @@
 
-import { Umbrella, MapPin, CloudRain, AlertTriangle, X } from 'lucide-react';
+import { Umbrella, MapPin, CloudRain, AlertTriangle, X, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface SidebarProps {
     filter: string;
@@ -18,27 +19,41 @@ export default function Sidebar({ filter, setFilter, highRiskCount, sidebarOpen,
                         <Umbrella className="h-6 w-6 text-white" />
                     </div>
                     <div>
-                        <h1 className="font-bold text-lg tracking-tight">AngelesWatch</h1>
-                        <p className="text-xs text-slate-400">HAKATON Dashboard</p>
+                        <h1 className="font-bold text-lg tracking-tight">Woomera</h1>
+                        <p className="text-xs text-slate-400">Platform</p>
                     </div>
                 </div>
 
                 <nav className="flex-1 p-4 space-y-2">
-                    <button
+                    <Link to={"/admin"}
                         onClick={() => setFilter('All')}
                         className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all ${filter === 'All' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
                     >
                         <MapPin className="h-5 w-5" />
-                        Dashboard Overview
-                    </button>
-                    <button
+                        Risk Radar
+                    </Link>
+                    <Link to={"/admin"}
                         onClick={() => setFilter('High Risk')}
                         className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all ${filter === 'High Risk' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
                     >
                         <AlertTriangle className="h-5 w-5" />
                         High Risk Areas
                         {highRiskCount > 0 && <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">{highRiskCount}</span>}
-                    </button>
+                    </Link>
+                    <Link to={"/"}
+                        onClick={() => setFilter('Resident')}
+                        className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all ${filter === 'Resident' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
+                    >
+                        <User className="h-5 w-5" />
+                        Track Safe
+                    </Link>
+                    <Link to={"/alert"}
+                        onClick={() => setFilter('Alert')}
+                        className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all ${filter === 'Alert' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
+                    >
+                        <MapPin className="h-5 w-5" />
+                        Alert Hub
+                    </Link>
                 </nav>
 
                 <div className="p-4 border-t border-slate-800">
@@ -46,7 +61,7 @@ export default function Sidebar({ filter, setFilter, highRiskCount, sidebarOpen,
                         <p className="text-xs text-slate-400 mb-2">System Status</p>
                         <div className="flex items-center gap-2">
                             <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-                            <span className="text-sm font-medium text-white">Weather API Online</span>
+                            <span className="text-sm font-medium text-white">Woomera</span>
                         </div>
                     </div>
                 </div>
@@ -61,8 +76,8 @@ export default function Sidebar({ filter, setFilter, highRiskCount, sidebarOpen,
                             <button onClick={() => setSidebarOpen(false)}><X className="h-6 w-6" /></button>
                         </div>
                         <nav className="space-y-4">
-                            <button onClick={() => { setFilter('All'); setSidebarOpen(false) }} className="block w-full text-left p-2 hover:bg-slate-800 rounded">Overview</button>
-                            <button onClick={() => { setFilter('Rainy'); setSidebarOpen(false) }} className="block w-full text-left p-2 hover:bg-slate-800 rounded">Rain Alerts</button>
+                            <button onClick={() => { setFilter('All'); setSidebarOpen(false) }} className="block w-full text-left p-2 hover:bg-slate-800 rounded">Risk Radar</button>
+                        
                             <button onClick={() => { setFilter('High Risk'); setSidebarOpen(false) }} className="block w-full text-left p-2 hover:bg-slate-800 rounded">High Risk Areas</button>
                         </nav>
                     </div>

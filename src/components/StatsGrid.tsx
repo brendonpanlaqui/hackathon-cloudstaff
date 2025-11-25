@@ -14,7 +14,7 @@ export default function StatsGrid({ response }: StatsGridProps) {
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex items-center justify-between">
                 <div>
                     <p className="text-sm text-gray-500 mb-1">Weather</p>
-                    <h3 className="text-2xl font-bold text-gray-800">{wmoCodeMap[response?.weather_code || 0]}</h3>
+                    <h3 className="text-2xl font-bold text-gray-800">Sunny</h3>
                 </div>
                 <div className="h-12 w-12 bg-blue-50 rounded-full flex items-center justify-center">
                     <Users className="h-6 w-6 text-blue-600" />

@@ -158,7 +158,7 @@ export default function DetailModal({ selectedBarangay, setSelectedBarangay, sen
                             <Bell className="h-5 w-5" />
                             Send Emergency Alert
                         </button>
-                        <Link to={"?viewMap=true"} onClick={(()=>setSelectedBarangay(null))}
+                        <Link to={`?viewMap=true&lon=${selectedBarangay.lon}&lat=${selectedBarangay.lat}`} onClick={(()=>setSelectedBarangay(null))}
                             className="flex-1 py-3 text-center bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-xl font-bold transition-all"
                         >
                             View Map Location

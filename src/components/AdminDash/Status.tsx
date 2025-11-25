@@ -13,9 +13,9 @@ import { wmoCodeMap } from '../../data/weathercode';
 import Spinner from '../../components/Spinnet';
 import { useSearchParams } from 'react-router-dom';
 import Leafy from '../Leafy';
-import { INITIAL_DATA } from '../../data/barangays';
+import UserTable from '../BarangayTable copy';
 
-export default function Admin() {
+export default function StatusA() {
   const [barangays, setBarangayData] = useState<Barangay[]>([]);
   const [filter, setFilter] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
@@ -142,8 +142,7 @@ export default function Admin() {
       setResponse(json);
       if (json?.flooded_barangays?.length) {
         const geocodedBarangays = await geocodeBarangays(json.flooded_barangays);
-        setBarangayData([...geocodedBarangays, ...INITIAL_DATA]);
-
+        setBarangayData(geocodedBarangays);
 
       }
     } catch (err) {
@@ -175,9 +174,6 @@ export default function Admin() {
     };
     setNotifications([newNotif, ...notifications]);
   };
-if(barangays.length < 1){
-  return <Spinner/>
-}
   return (
     <div className="flex h-screen bg-gray-50 font-sans overflow-hidden text-slate-900 relative">
 
@@ -197,7 +193,7 @@ if(barangays.length < 1){
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
-        {myParam ? <><Leafy response = {barangays}/></>:<div>
+       <div>
         <Header
           setSidebarOpen={setSidebarOpen}
           searchTerm={searchTerm}
@@ -212,14 +208,14 @@ if(barangays.length < 1){
             response={response}
           />
 
-          <BarangayTable
+          <UserTable
             barangays={barangays}
             filteredBarangays={filteredBarangays}
             setSearchTerm={setSearchTerm}
             setSelectedBarangay={setSelectedBarangay}
           />
         </div>
-        </div>}
+        </div>
       </main>
     </div>
   );
