@@ -4,12 +4,12 @@ import { Umbrella, MapPin, CloudRain, AlertTriangle, X } from 'lucide-react';
 interface SidebarProps {
     filter: string;
     setFilter: (filter: string) => void;
-    rainyCount: number;
+    highRiskCount: number;
     sidebarOpen: boolean;
     setSidebarOpen: (open: boolean) => void;
 }
 
-export default function Sidebar({ filter, setFilter, rainyCount, sidebarOpen, setSidebarOpen }: SidebarProps) {
+export default function Sidebar({ filter, setFilter, highRiskCount, sidebarOpen, setSidebarOpen }: SidebarProps) {
     return (
         <>
             <aside className="hidden md:flex flex-col w-64 bg-slate-900 text-white shadow-xl z-10">
@@ -19,7 +19,7 @@ export default function Sidebar({ filter, setFilter, rainyCount, sidebarOpen, se
                     </div>
                     <div>
                         <h1 className="font-bold text-lg tracking-tight">AngelesWatch</h1>
-                        <p className="text-xs text-slate-400">LGU Dashboard</p>
+                        <p className="text-xs text-slate-400">HAKATON Dashboard</p>
                     </div>
                 </div>
 
@@ -32,19 +32,12 @@ export default function Sidebar({ filter, setFilter, rainyCount, sidebarOpen, se
                         Dashboard Overview
                     </button>
                     <button
-                        onClick={() => setFilter('Rainy')}
-                        className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all ${filter === 'Rainy' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
-                    >
-                        <CloudRain className="h-5 w-5" />
-                        Rain Alerts
-                        {rainyCount > 0 && <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">{rainyCount}</span>}
-                    </button>
-                    <button
                         onClick={() => setFilter('High Risk')}
                         className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all ${filter === 'High Risk' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
                     >
                         <AlertTriangle className="h-5 w-5" />
                         High Risk Areas
+                        {highRiskCount > 0 && <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">{highRiskCount}</span>}
                     </button>
                 </nav>
 
