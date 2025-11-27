@@ -12,5 +12,5 @@ export const INITIAL_DATA: Barangay[] = [
         riskLevel: 'High',
         demographics: { children: 2800, seniors: 800, pwd: 80 },
         percentage: 90
-    },
+    }
 ];
